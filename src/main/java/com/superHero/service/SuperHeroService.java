@@ -38,7 +38,7 @@ public class SuperHeroService {
     }
 
     public void saveSuperHero(String id,SuperHeroDTO hero){
-    if(id ==null || id.isEmpty()){
+    if(id ==null || id.isEmpty()|| id!=hero.getId()){
         throw new IllegalArgumentException("el Id es invalido");
     }
         try {
