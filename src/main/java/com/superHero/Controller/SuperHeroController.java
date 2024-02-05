@@ -47,7 +47,7 @@ public class SuperHeroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<List>CreateSuperHero(){
+    public ResponseEntity<List>CreateSuperHero(@PathVariable String id){
         List<SuperHeroDTO> superHero = superHeroService.getAllSuperHeroes();
         if (superHero != null) {
             return new ResponseEntity<>(superHero, HttpStatus.OK);

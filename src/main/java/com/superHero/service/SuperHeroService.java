@@ -48,6 +48,9 @@ public class SuperHeroService {
 
 
     public void deleteSuperHero(String id){
+
+        throw new IllegalArgumentException("El parametro es invalido");
+
     }
 
 

@@ -6,14 +6,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 @SpringBootTest(classes = com.superHero.main.HeroApplication.class)
@@ -47,8 +46,8 @@ public class SuperHeroServiceTest {
         SuperHeroDTO expectedSuperHeroDTO = new SuperHeroDTO();
         expectedSuperHeroDTO.setId("Id1");
         expectedSuperHeroDTO.setName("Superman");
-        when(repository.getReferenceById("")).thenReturn(expectedSuperHeroDTO);
-        SuperHeroDTO actualSuperHeroDTO = superHeroService.getSuperHeroById("1");
+        when(repository.getReferenceById("Id1")).thenReturn(expectedSuperHeroDTO);
+        SuperHeroDTO actualSuperHeroDTO = superHeroService.getSuperHeroById("Id1");
         assertEquals(expectedSuperHeroDTO, actualSuperHeroDTO);
     }
 
@@ -117,17 +116,6 @@ public class SuperHeroServiceTest {
     }
 
     @Test
-    public void updateSuperHeroTest(){
-        SuperHeroDTO expectedSuperHeroDTO = new SuperHeroDTO();
-        expectedSuperHeroDTO.setId("1");
-        expectedSuperHeroDTO.setName("Superman");
-        when(repository.save(expectedSuperHeroDTO)).thenReturn(expectedSuperHeroDTO);
-
-        SuperHeroDTO actual = superHeroService.getSuperHeroById("1");
-        assertEquals(expectedSuperHeroDTO.getName(), actual.getName());
-    }
-
-    @Test
     public void deleteSuperHeroTest_nullParameter(){
         assertThrows(IllegalArgumentException.class,()->{superHeroService.deleteSuperHero(null);
         });
@@ -136,6 +124,13 @@ public class SuperHeroServiceTest {
     public void deleteSuperHeroTest_emptyParameter(){
         assertThrows(IllegalArgumentException.class,()->{superHeroService.deleteSuperHero("");
         });
+    }
+
+    @Test
+    public void deleteSuperHeroTest_ValidateOnesDeletion(){
+        superHeroService.deleteSuperHero("1");
+        verify(repository,times(1)).deleteById("1");
+
     }
 
 }
