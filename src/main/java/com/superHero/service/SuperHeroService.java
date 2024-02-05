@@ -48,9 +48,10 @@ public class SuperHeroService {
 
 
     public void deleteSuperHero(String id){
-
-        throw new IllegalArgumentException("El parametro es invalido");
-
+        if(id ==null || id.isEmpty()){
+            throw new IllegalArgumentException("el Id es invalido");
+        }
+        repository.deleteById(id);
     }
 
 
