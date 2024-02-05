@@ -75,7 +75,7 @@ public class SuperHeroServiceTest {
         expectedSuperHero2.setName("Spiderman");
         superHeroListExpected.add(expectedSuperHero);
         superHeroListExpected.add(expectedSuperHero2);
-        when(repository.findByNameContaining("man")).thenReturn(superHeroListExpected);
+        when(repository.findByNameContainingIgnoreCase("man")).thenReturn(superHeroListExpected);
 
         List<SuperHero> actualList = superHeroService.getSuperHeroesByName("man");
         assertEquals(expectedSuperHero.getName(), actualList.get(0).getName());

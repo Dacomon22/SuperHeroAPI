@@ -35,20 +35,20 @@ public class SuperHeroController {
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("/byName")
     public ResponseEntity<List>getSuperHeroByName(@RequestParam String name){
         List<SuperHero> superHero = superHeroService.getSuperHeroesByName(name);
-        if (superHero != null) {
+        if (!superHero.isEmpty()) {
             return new ResponseEntity<>(superHero, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/test")
+    @GetMapping("/")
     public ResponseEntity<List>getAllSuperHero(){
         List<SuperHero> superHero = superHeroService.getAllSuperHeroes();
-        if (superHero != null) {
+        if (!superHero.isEmpty()) {
             return new ResponseEntity<>(superHero, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

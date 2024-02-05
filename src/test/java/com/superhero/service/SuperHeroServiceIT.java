@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest(classes = {HeroApplication.class, SuperHeroRepository.class})
@@ -64,5 +66,31 @@ public class SuperHeroServiceIT {
         SuperHero savedSuperHero = savedSuperHeroOptional.get();
         assertEquals("1",savedSuperHero.getId());
         assertEquals("Spiderman", savedSuperHero.getName());
+    }
+
+    @Test
+    public void testGetSuperHeroByName(){
+        SuperHeroService superHeroService = new SuperHeroService(repository);
+        SuperHero superHero = new SuperHero();
+        superHero.setId("1");
+        superHero.setName("Superman");
+        SuperHero superHero2 = new SuperHero();
+        superHero2.setId("2");
+        superHero2.setName("Spiderman");
+        SuperHero superHero3 = new SuperHero();
+        superHero3.setId("3");
+        superHero3.setName("IronMan");
+        SuperHero superHero4 = new SuperHero();
+        superHero4.setId("4");
+        superHero4.setName("WonderWomen");
+        superHeroService.saveSuperHero(superHero.getId(), superHero);
+        superHeroService.saveSuperHero(superHero2.getId(), superHero2);
+        superHeroService.saveSuperHero(superHero3.getId(), superHero3);
+        superHeroService.saveSuperHero(superHero4.getId(), superHero4);
+        List<SuperHero> savedSuperHeroOptional = repository.findByNameContainingIgnoreCase("man");
+        assertTrue(!savedSuperHeroOptional.isEmpty());
+        assertEquals(3,savedSuperHeroOptional.size());
+        assertEquals("1",savedSuperHeroOptional.get(0).getId());
+        assertEquals("Spiderman", savedSuperHeroOptional.get(1).getName());
     }
 }

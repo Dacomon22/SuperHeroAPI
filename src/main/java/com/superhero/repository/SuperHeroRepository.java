@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface SuperHeroRepository extends JpaRepository<SuperHero, String>{
-    List<SuperHero> findByNameContaining(String name);
+    List<SuperHero> findByNameContainingIgnoreCase(String name);
 }
