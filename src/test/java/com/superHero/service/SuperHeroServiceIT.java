@@ -1,11 +1,36 @@
 package com.superHero.service;
 
+import com.superHero.DTO.SuperHeroDTO;
+import com.superHero.HeroApplication;
+import com.superHero.Repository.SuperHeroRepository;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = com.superHero.main.HeroApplication.class)
+import static org.junit.jupiter.api.Assertions.*;
+import java.util.Optional;
+
+@SpringBootTest(classes = {HeroApplication.class, SuperHeroRepository.class})
 public class SuperHeroServiceIT {
 
-    SuperHeroService superHeroService;
+    @Autowired
+    private SuperHeroRepository repository;
 
+
+    @Test
+    public void testSaveSuperHero_ValidData() {
+
+        SuperHeroService superHeroService = new SuperHeroService(repository);
+        SuperHeroDTO superHeroDTO = new SuperHeroDTO();
+        superHeroDTO.setId("1");
+        superHeroDTO.setName("Superman");
+
+        superHeroService.saveSuperHero(superHeroDTO.getId(), superHeroDTO);
+
+        Optional<SuperHeroDTO> savedSuperHeroOptional = repository.findById(superHeroDTO.getId());
+        assertTrue(savedSuperHeroOptional.isPresent());
+        SuperHeroDTO savedSuperHero = savedSuperHeroOptional.get();
+        assertEquals("Superman", savedSuperHero.getName());
+    }
 
 }

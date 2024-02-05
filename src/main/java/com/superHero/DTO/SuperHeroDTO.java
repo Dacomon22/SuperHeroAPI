@@ -1,10 +1,7 @@
 package com.superHero.DTO;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -13,12 +10,12 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@Table(name = "SuperHero", schema = "public")
 @AllArgsConstructor
 @NoArgsConstructor
 public class SuperHeroDTO {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     String id;
 
     @NotEmpty

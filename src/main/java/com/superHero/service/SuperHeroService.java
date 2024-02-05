@@ -3,9 +3,11 @@ package com.superHero.service;
 import com.superHero.DTO.SuperHeroDTO;
 import com.superHero.Repository.SuperHeroRepository;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class SuperHeroService {
 
     private final SuperHeroRepository repository;

@@ -36,7 +36,7 @@ public class SuperHeroController {
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("/test")
     public ResponseEntity<List>getAllSuperHero(){
         List<SuperHeroDTO> superHero = superHeroService.getAllSuperHeroes();
         if (superHero != null) {

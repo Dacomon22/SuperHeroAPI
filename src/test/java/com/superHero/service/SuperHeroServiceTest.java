@@ -1,6 +1,7 @@
 package com.superHero.service;
 
 import com.superHero.DTO.SuperHeroDTO;
+import com.superHero.HeroApplication;
 import com.superHero.Repository.SuperHeroRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-@SpringBootTest(classes = com.superHero.main.HeroApplication.class)
+@SpringBootTest(classes = HeroApplication.class)
 public class SuperHeroServiceTest {
 
     SuperHeroService superHeroService;
@@ -100,18 +101,18 @@ public class SuperHeroServiceTest {
     }
 
     @Test
-    public void saveSuperHeroTest_nullParameters(){
+    public void saveSuperHeroTest_nullId(){
         assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero(null,new SuperHeroDTO(null,null));
         });
     }
     @Test
-    public void saveSuperHeroTest_nullParameterName(){
-        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("1",new SuperHeroDTO("1",null));
+    public void saveSuperHeroTest_diferentId(){
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("1",new SuperHeroDTO("2",null));
         });
     }
     @Test
-    public void saveSuperHeroTest_emptyParameters(){
-        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("",new SuperHeroDTO("",""));
+    public void saveSuperHeroTest_emptyId(){
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("",new SuperHeroDTO("2","man"));
         });
     }
 
