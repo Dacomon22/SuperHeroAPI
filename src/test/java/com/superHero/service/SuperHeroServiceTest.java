@@ -47,11 +47,7 @@ public class SuperHeroServiceTest {
         SuperHeroDTO expectedSuperHeroDTO = new SuperHeroDTO();
         expectedSuperHeroDTO.setId("Id1");
         expectedSuperHeroDTO.setName("Superman");
-
-        // Define el comportamiento esperado del repositorio
         when(repository.getReferenceById("")).thenReturn(expectedSuperHeroDTO);
-
-        // Ejecuta el método y verifica que devuelva el SuperHeroDTO esperado
         SuperHeroDTO actualSuperHeroDTO = superHeroService.getSuperHeroById("1");
         assertEquals(expectedSuperHeroDTO, actualSuperHeroDTO);
     }
@@ -78,11 +74,8 @@ public class SuperHeroServiceTest {
         expectedSuperHeroDTO2.setName("Spiderman");
         superHeroListExpected.add(expectedSuperHeroDTO);
         superHeroListExpected.add(expectedSuperHeroDTO2);
-
-        // Define el comportamiento esperado del repositorio
         when(repository.findByNameContaining("man")).thenReturn(superHeroListExpected);
 
-        // Ejecuta el método y verifica que devuelva el SuperHeroDTO esperado
         List<SuperHeroDTO> actualList = superHeroService.getSuperHeroesByName("man");
         assertEquals(expectedSuperHeroDTO.getName(), actualList.get(0).getName());
         assertEquals(expectedSuperHeroDTO2.getName(), actualList.get(1).getName());
@@ -108,14 +101,14 @@ public class SuperHeroServiceTest {
     }
 
     @Test
-    public void createSuperHeroeTest(){
-        SuperHeroDTO expectedSuperHeroDTO = new SuperHeroDTO();
-        expectedSuperHeroDTO.setId("1");
-        expectedSuperHeroDTO.setName("Superman");
-        when(repository.save(expectedSuperHeroDTO)).thenReturn(expectedSuperHeroDTO);
-
-        SuperHeroDTO actual = superHeroService.getSuperHeroById("1");
-        assertEquals(expectedSuperHeroDTO.getName(), actual.getName());
+    public void saveSuperHeroTest_nullParameters(){
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero(null,new SuperHeroDTO(null,null));
+        });
+    }
+    @Test
+    public void saveSuperHeroTest_emptyParameters(){
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("",new SuperHeroDTO("",""));
+        });
     }
 
     @Test

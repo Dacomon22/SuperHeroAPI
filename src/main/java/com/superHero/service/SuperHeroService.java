@@ -14,7 +14,9 @@ public class SuperHeroService {
         this.repository = repository;
     }
     public SuperHeroDTO getSuperHeroById(String id){
-
+        if(id==null||id.isEmpty()){
+            throw new IllegalArgumentException("El parametro es invalido");
+        }
         dto = repository.getReferenceById(id);
         return dto;
     }
@@ -32,7 +34,7 @@ public class SuperHeroService {
         return list;
     }
 
-    public void createOrUpdateSuperHero(String id,SuperHeroDTO hero){
+    public void saveSuperHero(String id,SuperHeroDTO hero){
 
         repository.save(hero);
     }
