@@ -1,4 +1,4 @@
-package com.superHero.DTO;
+package com.superhero.models;
 
 
 import jakarta.persistence.*;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "SuperHero", schema = "public")
 @AllArgsConstructor
 @NoArgsConstructor
-public class SuperHeroDTO {
+public class SuperHero {
 
     @Id
     String id;
@@ -21,4 +21,5 @@ public class SuperHeroDTO {
     @NotEmpty
     @NotNull
     String name;
+
 }

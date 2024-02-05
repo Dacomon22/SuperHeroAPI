@@ -1,8 +1,9 @@
-package com.superHero.service;
+package com.superhero.service;
 
-import com.superHero.DTO.SuperHeroDTO;
-import com.superHero.HeroApplication;
-import com.superHero.Repository.SuperHeroRepository;
+import com.superhero.dtos.SuperHeroDTO;
+import com.superhero.models.SuperHero;
+import com.superhero.HeroApplication;
+import com.superhero.repository.SuperHeroRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -44,12 +46,11 @@ public class SuperHeroServiceTest {
 
     @Test
     public void getSuperHeroByIdTest_correctParam(){
-        SuperHeroDTO expectedSuperHeroDTO = new SuperHeroDTO();
-        expectedSuperHeroDTO.setId("Id1");
-        expectedSuperHeroDTO.setName("Superman");
-        when(repository.getReferenceById("Id1")).thenReturn(expectedSuperHeroDTO);
-        SuperHeroDTO actualSuperHeroDTO = superHeroService.getSuperHeroById("Id1");
-        assertEquals(expectedSuperHeroDTO, actualSuperHeroDTO);
+        SuperHero expectedSuperHeroModel = new SuperHero("Id1","Superman");
+        SuperHeroDTO expectedSuperHero = new SuperHeroDTO("Id1","Superman");
+        when(repository.getReferenceById("Id1")).thenReturn(expectedSuperHeroModel);
+        Optional<SuperHeroDTO> actualSuperHeroDTO = superHeroService.getSuperHeroById("Id1");
+        assertEquals(expectedSuperHero, actualSuperHeroDTO.get());
     }
 
     @Test
@@ -65,54 +66,54 @@ public class SuperHeroServiceTest {
 
     @Test
     public void getSuperHeroByNameTest_correctParam(){
-        List<SuperHeroDTO> superHeroListExpected = new ArrayList<>();
-        SuperHeroDTO expectedSuperHeroDTO = new SuperHeroDTO();
-        expectedSuperHeroDTO.setId("1");
-        expectedSuperHeroDTO.setName("Superman");
-        SuperHeroDTO expectedSuperHeroDTO2 = new SuperHeroDTO();
-        expectedSuperHeroDTO2.setId("2");
-        expectedSuperHeroDTO2.setName("Spiderman");
-        superHeroListExpected.add(expectedSuperHeroDTO);
-        superHeroListExpected.add(expectedSuperHeroDTO2);
+        List<SuperHero> superHeroListExpected = new ArrayList<>();
+        SuperHero expectedSuperHero = new SuperHero();
+        expectedSuperHero.setId("1");
+        expectedSuperHero.setName("Superman");
+        SuperHero expectedSuperHero2 = new SuperHero();
+        expectedSuperHero2.setId("2");
+        expectedSuperHero2.setName("Spiderman");
+        superHeroListExpected.add(expectedSuperHero);
+        superHeroListExpected.add(expectedSuperHero2);
         when(repository.findByNameContaining("man")).thenReturn(superHeroListExpected);
 
-        List<SuperHeroDTO> actualList = superHeroService.getSuperHeroesByName("man");
-        assertEquals(expectedSuperHeroDTO.getName(), actualList.get(0).getName());
-        assertEquals(expectedSuperHeroDTO2.getName(), actualList.get(1).getName());
+        List<SuperHero> actualList = superHeroService.getSuperHeroesByName("man");
+        assertEquals(expectedSuperHero.getName(), actualList.get(0).getName());
+        assertEquals(expectedSuperHero2.getName(), actualList.get(1).getName());
         assertEquals(2,actualList.size());
     }
     @Test
     public void getAllSuperHeroesTest(){
-        List<SuperHeroDTO> superHeroListExpected = new ArrayList<>();
-        SuperHeroDTO expectedSuperHeroDTO = new SuperHeroDTO();
-        expectedSuperHeroDTO.setId("1");
-        expectedSuperHeroDTO.setName("Superman");
-        SuperHeroDTO expectedSuperHeroDTO2 = new SuperHeroDTO();
-        expectedSuperHeroDTO2.setId("2");
-        expectedSuperHeroDTO2.setName("Spiderman");
-        superHeroListExpected.add(expectedSuperHeroDTO);
-        superHeroListExpected.add(expectedSuperHeroDTO2);
+        List<SuperHero> superHeroListExpected = new ArrayList<>();
+        SuperHero expectedSuperHero = new SuperHero();
+        expectedSuperHero.setId("1");
+        expectedSuperHero.setName("Superman");
+        SuperHero expectedSuperHero2 = new SuperHero();
+        expectedSuperHero2.setId("2");
+        expectedSuperHero2.setName("Spiderman");
+        superHeroListExpected.add(expectedSuperHero);
+        superHeroListExpected.add(expectedSuperHero2);
 
         when(repository.findAll()).thenReturn(superHeroListExpected);
-        List<SuperHeroDTO> actualList = superHeroService.getAllSuperHeroes();
-        assertEquals(expectedSuperHeroDTO.getName(), actualList.get(0).getName());
-        assertEquals(expectedSuperHeroDTO2.getName(), actualList.get(1).getName());
+        List<SuperHero> actualList = superHeroService.getAllSuperHeroes();
+        assertEquals(expectedSuperHero.getName(), actualList.get(0).getName());
+        assertEquals(expectedSuperHero2.getName(), actualList.get(1).getName());
         assertEquals(2,actualList.size());
     }
 
     @Test
     public void saveSuperHeroTest_nullId(){
-        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero(null,new SuperHeroDTO(null,null));
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero(null,new SuperHero(null,null));
         });
     }
     @Test
     public void saveSuperHeroTest_diferentId(){
-        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("1",new SuperHeroDTO("2",null));
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("1",new SuperHero("2",null));
         });
     }
     @Test
     public void saveSuperHeroTest_emptyId(){
-        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("",new SuperHeroDTO("2","man"));
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("",new SuperHero("2","man"));
         });
     }
 

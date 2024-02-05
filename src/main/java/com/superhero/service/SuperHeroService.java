@@ -1,43 +1,50 @@
-package com.superHero.service;
+package com.superhero.service;
 
-import com.superHero.DTO.SuperHeroDTO;
-import com.superHero.Repository.SuperHeroRepository;
+import com.superhero.dtos.SuperHeroDTO;
+import com.superhero.models.SuperHero;
+import com.superhero.repository.SuperHeroRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-@Component
+@Service
 public class SuperHeroService {
 
     private final SuperHeroRepository repository;
-    SuperHeroDTO dto;
 
     public SuperHeroService(SuperHeroRepository repository) {
         this.repository = repository;
     }
-    public SuperHeroDTO getSuperHeroById(String id){
-        if(id==null||id.isEmpty()){
+
+    public Optional<SuperHeroDTO> getSuperHeroById(String id) {
+        if (id == null || id.isEmpty()) {
             throw new IllegalArgumentException("El parametro es invalido");
         }
-        dto = repository.getReferenceById(id);
-        return dto;
+        Optional<SuperHero> entity = repository.findById(id);
+        if (entity.isPresent()) {
+            return Optional.of(new SuperHeroDTO(entity.get().getId(), entity.get().getName()));
+        } else {
+            return Optional.empty();
+        }
     }
-
-    public List<SuperHeroDTO> getSuperHeroesByName(String name){
+    public List<SuperHero> getSuperHeroesByName(String name){
         if(name==null||name.isEmpty()){
             throw new IllegalArgumentException("El parametro es invalido");
         }
-        List<SuperHeroDTO> list = repository.findByNameContaining(name);
+        List<SuperHero> list = repository.findByNameContaining(name);
         return list;
     }
 
-    public List<SuperHeroDTO> getAllSuperHeroes(){
-        List<SuperHeroDTO> list =repository.findAll();
+    public List<SuperHero> getAllSuperHeroes(){
+        List<SuperHero> list =repository.findAll();
         return list;
     }
 
-    public void saveSuperHero(String id,SuperHeroDTO hero){
+    public void saveSuperHero(String id, SuperHero hero){
     if(id ==null || id.isEmpty()|| id!=hero.getId()){
         throw new IllegalArgumentException("el Id es invalido");
     }
