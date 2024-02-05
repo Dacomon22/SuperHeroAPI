@@ -106,6 +106,11 @@ public class SuperHeroServiceTest {
         });
     }
     @Test
+    public void saveSuperHeroTest_nullParameterName(){
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("1",new SuperHeroDTO("1",null));
+        });
+    }
+    @Test
     public void saveSuperHeroTest_emptyParameters(){
         assertThrows(IllegalArgumentException.class,()->{superHeroService.saveSuperHero("",new SuperHeroDTO("",""));
         });
@@ -123,12 +128,14 @@ public class SuperHeroServiceTest {
     }
 
     @Test
-    public void deleteSuperHeroTest(){
-        SuperHeroDTO expectedSuperHeroDTO = new SuperHeroDTO();
-        expectedSuperHeroDTO.setId("1");
-        expectedSuperHeroDTO.setName("Superman");
-        when(repository.save(expectedSuperHeroDTO)).thenReturn(expectedSuperHeroDTO);
-        superHeroService.deleteSuperHero(expectedSuperHeroDTO);
+    public void deleteSuperHeroTest_nullParameter(){
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.deleteSuperHero(null);
+        });
+    }
+    @Test
+    public void deleteSuperHeroTest_emptyParameter(){
+        assertThrows(IllegalArgumentException.class,()->{superHeroService.deleteSuperHero("");
+        });
     }
 
 }

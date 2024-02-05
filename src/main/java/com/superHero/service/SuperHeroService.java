@@ -2,6 +2,7 @@ package com.superHero.service;
 
 import com.superHero.DTO.SuperHeroDTO;
 import com.superHero.Repository.SuperHeroRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
 
@@ -35,13 +36,18 @@ public class SuperHeroService {
     }
 
     public void saveSuperHero(String id,SuperHeroDTO hero){
-
-        repository.save(hero);
+    if(id ==null || id.isEmpty()){
+        throw new IllegalArgumentException("el Id es invalido");
+    }
+        try {
+            repository.save(hero);
+        }catch (DataIntegrityViolationException e){
+            throw new IllegalArgumentException("Los valores del SuperHero son invalidos");
+        }
     }
 
 
-    public void deleteSuperHero(SuperHeroDTO hero){
-        repository.delete(hero);
+    public void deleteSuperHero(String id){
     }
 
 
